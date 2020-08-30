@@ -45,8 +45,8 @@ function empezar_animacion()
 {
   audio.volume = .7;
   audio.play();
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = Math.floor(window.innerWidth);
+  canvas.height = Math.floor(window.innerHeight);
 
   michi1.xx = canvas.width * .2;
   michi2.xx = canvas.width * .9;
@@ -68,8 +68,8 @@ window.addEventListener("resize",
   {
     if (canvasActivo)
     {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = Math.floor(window.innerWidth);
+      canvas.height = Math.floor(window.innerHeight);
       dibujar();
       dibujarMichis();
     }
@@ -218,11 +218,11 @@ function animacion()
       default:
     }
     moverMichis(michi1, 10);
-    moverMichis(michi2, 15);
-    moverMichis(michi3, 5);
+    moverMichis(michi2, 25);
+    moverMichis(michi3, 7);
     moverMichis(michi4, 20);
-    moverMichis(michi5, 10);
-    moverMichis(michi6, 20);
+    moverMichis(michi5, 18);
+    moverMichis(michi6, 13);
 
     dibujar();
     dibujarMichis();
@@ -255,9 +255,10 @@ function dibujarMichis()
 
 function moverMichis(michi, velocidad)
 {
-  michi.xx -= velocidad;
-  if (michi.xx + michi.ancho <= 0)
+  if (michi.xx + (michi.ancho / 3) <= 0)
   {
     michi.xx = canvas.width;
+    return
   }
+  michi.xx -= velocidad;
 }
