@@ -4,6 +4,10 @@ const ctx = canvas.getContext("2d");
 const audio = document.getElementById("audio");
 
 var canvasActivo = false;
+var numeroAleatorio = 0;
+var xMichi = 0;
+var yMichi = 0;
+var canvasCompleto = false;
 
 boton.addEventListener("click", empezar_animacion);
 
@@ -41,6 +45,9 @@ michiIzq3.src = "michiIzq3.png";
 michiIzq4 = new Image();
 michiIzq4.src = "michiIzq4.png";
 
+imgBoton = new Image();
+imgBoton.src = "boton.png";
+
 function empezar_animacion()
 {
   audio.volume = .7;
@@ -53,9 +60,14 @@ function empezar_animacion()
   michi3.xx = canvas.width * .9;
   michi4.xx = canvas.width * .2;
   michi5.xx = canvas.width * .6;
-  michi6.xx = canvas.width * .4
+  michi6.xx = canvas.width * .4;
+  xMichi = .5;
+  yMichi = .5;
 
   canvas.style.display = "flex";
+
+  window.setTimeout(function(){canvasCompleto = true}, 4500)
+
   dibujar();
   canvasActivo = true;
   boton.remove();
@@ -97,7 +109,18 @@ function dibujar()
   ctx.stroke();
   var ancho = canvas.width * .4;
   var largo = ancho * .528;
-  ctx.drawImage(michiDibujo, 0, 0, 780, 412, canvas.width * .5 - ancho / 8, canvas.height * .5 - largo / 2, ancho, largo);
+  anchoBoton = canvas.width * .15;
+  largoBoton = anchoBoton * .177777777777777778;
+
+  xBoton = canvas.width * xMichi - (anchoBoton / 2.6);
+  yBoton = canvas.height * yMichi + (largoBoton * 2);
+
+  ctx.drawImage(michiDibujo, 0, 0, 780, 412, canvas.width * xMichi - (ancho / 8), canvas.height * yMichi - largo / 2, ancho, largo);
+
+  if (canvasCompleto)
+  {
+    ctx.drawImage(imgBoton, 0, 0, 225, 40, xBoton, yBoton, anchoBoton, largoBoton);
+  }
 }
 
 function cambiarColores()
@@ -261,4 +284,90 @@ function moverMichis(michi, velocidad)
     return
   }
   michi.xx -= velocidad;
+}
+
+function moverBoton()
+{
+  var numero = Math.floor(Math.random() * (5 - 1)) + 1;
+  if (numero != numeroAleatorio)
+  {
+    numeroAleatorio = numero;
+  }
+  else
+  {
+    numeroAleatorio = numero + 1;
+  }
+
+  switch (numeroAleatorio)
+  {
+    case 1:
+      xMichi = .1;
+      yMichi = .18;
+      break;
+    case 2:
+      xMichi = .85;
+      yMichi = .18;
+      break;
+    case 3:
+      xMichi = .85;
+      yMichi = .8;
+      break;
+    case 4:
+      xMichi = .1;
+      yMichi = .8;
+      break;
+    case 5:
+      xMichi = .5;
+      yMichi = .5;
+      break;
+    default:
+  }
+}
+
+canvas.addEventListener("mouseover", function(evt)
+{
+  var mousePos = getMousePos(canvas, evt);
+  sobreBoton(mousePos.x, mousePos.y);
+});
+
+canvas.addEventListener("mousemove", function(evt)
+{
+  var mousePos = getMousePos(canvas, evt);
+  sobreBoton(mousePos.x, mousePos.y);
+});
+
+canvas.addEventListener("click", function(evt)
+{
+  var mousePos = getMousePos(canvas, evt);
+  clickBoton(mousePos.x, mousePos.y);
+});
+
+function getMousePos(canvas, evt)
+{
+  return {
+    x: parseInt(evt.clientX),
+    y: parseInt(evt.clientY)
+  };
+};
+
+function sobreBoton(x, y)
+{
+  if (x >= xBoton && x <= xBoton + anchoBoton && canvasCompleto)
+  {
+    if (y >= yBoton && y <= yBoton + largoBoton)
+    {
+      moverBoton();
+    }
+  }
+}
+
+function clickBoton(x, y)
+{
+  if (x >= xBoton && x <= xBoton + anchoBoton && canvasCompleto)
+  {
+    if (y >= yBoton && y <= yBoton + largoBoton)
+    {
+      alert("hacker:0");
+    }
+  }
 }
