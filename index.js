@@ -46,7 +46,7 @@ michiIzq4 = new Image();
 michiIzq4.src = "michiIzq4.png";
 
 imgBoton = new Image();
-imgBoton.src = "boton.png";
+imgBoton.src = "boton.PNG";
 
 function empezar_animacion()
 {
