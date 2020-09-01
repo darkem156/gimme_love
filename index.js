@@ -367,7 +367,7 @@ function clickBoton(x, y)
   {
     if (y >= yBoton && y <= yBoton + largoBoton)
     {
-      alert("hacker:0");
+      alert("Oh vaya, me siento un poco estupido ahora mismo");
     }
   }
 }
